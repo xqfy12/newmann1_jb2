@@ -1,0 +1,116 @@
+#!/system/bin/sh
+
+#======== Copyright (C) 2013 Jeffrey Gomez (Exit_Only) =========#
+ 
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+ 
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+#===============================================================#
+ 
+DIRECT=/data/direct_inject/04injection.log
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+busybox echo "# DIRECT INJECTION TURBO LOGGING ENGINE" | tee -a $DIRECT
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Direct injecting & Turbo charging your engine..." | tee -a $DIRECT
+
+if ( busybox mount | busybox grep -w ext4 ) then
+busybox mount -o remount,noatime,nobh,nodiratime,nodelalloc,noauto_da_alloc,barrier=0 /system /system
+busybox mount -o remount,noatime,nobh,nodiratime,nodelalloc,noauto_da_alloc,barrier=0 /cache /cache
+busybox mount -o remount,noatime,nodiratime,delalloc,noauto_da_alloc,barrier=0 /data /data
+fi
+
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Remount Ext4 script successfully executed" | tee -a $DIRECT
+
+busybox mount -t debugfs none /sys/kernel/debug
+KERNEL=/sys/kernel/debug/sched_features
+busybox echo "NO_ARCH_POWER" >> $KERNEL
+busybox echo "NO_GENTLE_FAIR_SLEEPERS" >> $KERNEL
+busybox echo "NO_LB_BIAS" >> $KERNEL
+busybox echo "NO_NEW_FAIR_SLEEPERS" >> $KERNEL
+busybox echo "NO_NEXT_BUDDY" >> $KERNEL
+busybox echo "NO_NORMALIZED_SLEEPERS" >> $KERNEL
+busybox echo "NO_START_DEBIT" >> $KERNEL
+busybox echo "NO_AFFINE_WAKEUPS" >> $KERNEL 
+busybox echo "NO_LAST_BUDDY" >> $KERNEL 
+busybox echo "NO_CACHE_HOT_BUDDY" >> $KERNEL 
+busybox echo "NO_HRTICK" >> $KERNEL 
+busybox echo "NO_DOUBLE_TICK" >> $KERNEL  
+busybox echo "NO_OWNER_SPIN" >> $KERNEL 
+busybox echo "NO_NONTASK_POWER" >> $KERNEL 
+busybox echo "NO_TTWU_QUEUE" >> $KERNEL 
+busybox echo "NO_FORCE_SD_OVERLAP" $KERNEL 
+busybox echo "NO_RT_RUNTIME_SHARE" >> $KERNEL 
+busybox echo "NO_LB_MIN" >> $KERNEL
+busybox umount /sys/kernel/debug
+
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Kernel sleepers successfully disabled..." | tee -a $DIRECT
+
+READAHEAD="4048"
+
+if [ -e /sys/devices/virtual/bdi/0:18/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/0:18/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/179:0/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/179:0/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:0/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:0/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:1/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:1/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:2/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:2/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:3/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:3/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:4/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:4/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:5/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:5/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:6/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:6/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:7/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/7:7/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/default/read_ahead_kb ]; then
+busybox echo $READAHEAD >> /sys/devices/virtual/bdi/default/read_ahead_kb
+fi
+
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Readahead successfully set to $READAHEAD" | tee -a $DIRECT
+
+busybox insmod /system/lib/modules/frandom.ko
+
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Frandom module successfully loaded into kernel!!!" | tee -a $DIRECT
+
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Direct Injection script successfully executed!!! " | tee -a $DIRECT

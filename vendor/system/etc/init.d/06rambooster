@@ -1,0 +1,47 @@
+#!/system/bin/sh
+
+#======== Copyright (C) 2013 Jeffrey Gomez (Exit_Only) =========#
+ 
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+ 
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+#===============================================================#
+
+DIRECT=/data/direct_inject/06rambooster.log
+
+if [ -e $DIRECT ]; then
+run_last=`stat -t $DIRECT | awk '{print $14}'`
+else
+run_last=0
+fi
+
+runner=5400
+current_date=`date +%s`
+time_interval=$(expr $current_date - $runner)
+
+if [ $time_interval -gt $runner ]; then
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "# DIRECT INJECTION TURBO LOGGING ENGINE" | tee -a $DIRECT
+echo "" | tee -a $DIRECT
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Boosting RAM, Setting boost interval to $runner seconds..." | tee -a $DIRECT
+
+sleep 5
+busybox sync
+busybox echo "3" >> /proc/sys/vm/drop_caches
+sleep 2
+busybox echo "0" >> /proc/sys/vm/drop_caches
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Boosting of RAM complete, interval set to $runner seconds!!!" | tee -a $DIRECT
+
+fi

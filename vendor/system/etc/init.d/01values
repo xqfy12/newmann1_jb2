@@ -1,0 +1,55 @@
+#!/system/bin/sh
+
+#======== Copyright (C) 2013 Jeffrey Gomez (Exit_Only) =========#
+ 
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+ 
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+#===============================================================#
+ 
+DIRECT=/data/direct_inject/01values.log
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+busybox echo "# DIRECT INJECTION TURBO LOGGING ENGINE" | tee -a $DIRECT
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Tweaking minfree values & adj lowmem values..." | tee -a $DIRECT;
+
+sleep 15
+
+busybox mount -o rw,remount rootfs /
+
+if [ -e /sys/module/lowmemorykiller/parameters ]; then
+busybox echo "0,1,3,5,7,15" >> /sys/module/lowmemorykiller/parameters/adj
+fi
+
+if [ -e /sys/module/lowmemorykiller/parameters ];then
+busybox echo "2048,3584,19200,23040,24320,32000" >> /sys/module/lowmemorykiller/parameters/minfree
+fi
+
+if [ -e /sys/module/lowmemorykiller/parameters ]; then
+busybox echo "256" >> /sys/module/lowmemorykiller/parameters/cost
+fi
+
+if [ -e /sys/module/lowmemorykiller/parameters ]; then
+busybox echo "0" >> /sys/module/lowmemorykiller/parameters/debug_level
+fi
+
+if [ -e /sys/module/lowmemorykiller/parameters ]; then
+busybox echo "1" >> /sys/module/lowmemorykiller/parameters/lmk_fast_run
+fi
+
+busybox mount -o ro,remount rootfs /
+
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) MinFree script successfully executed" | tee -a $DIRECT;
+

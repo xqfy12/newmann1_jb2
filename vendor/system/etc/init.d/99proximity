@@ -1,0 +1,2 @@
+#!/system/bin/sh
+echo 900 > /sys/bus/platform/drivers/als_ps/psthd

@@ -1,0 +1,70 @@
+#!/system/bin/sh
+
+#======== Copyright (C) 2013 Jeffrey Gomez (Exit_Only) =========#
+ 
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+ 
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+#===============================================================#
+ 
+DIRECT=/data/direct_inject/00sysctl.log
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+busybox echo "# DIRECT INJECTION TURBO LOGGING ENGINE" | tee -a $DIRECT
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Sysctl script has started..." | tee -a $DIRECT
+
+sleep 15
+if [ -e /proc/sys/vm ]; then
+busybox chmod -f 644 /proc/sys/vm/*
+busybox echo "3" >> /proc/sys/vm/drop_caches
+busybox echo "0" >> /proc/sys/vm/laptop_mode
+busybox echo "3" >> /proc/sys/vm/page_cluster
+busybox echo "60" >> /proc/sys/vm/dirty_ratio
+busybox echo "1" >> /proc/sys/vm/panic_on_oom
+busybox echo "1" >> /proc/sys/vm/stat_interval
+busybox echo "0" >> /proc/sys/vm/mmap_min_addr
+busybox echo "1" >> /proc/sys/vm/overcommit_memory
+busybox echo "16384" >> /proc/sys/vm/min_free_kbytes
+busybox echo "40" >> /proc/sys/vm/vfs_cache_pressure
+busybox echo "5" >> /proc/sys/vm/min_free_order_shift
+busybox echo "1" >> /proc/sys/vm/highmem_is_dirtyable
+busybox echo "0" >> /proc/sys/vm/scan_unevictable_pages
+busybox echo "60" >> /proc/sys/vm/dirty_background_ratio
+busybox echo "1" >> /proc/sys/vm/oom_kill_allocating_task
+busybox echo "1000" >> /proc/sys/vm/dirty_expire_centisecs
+busybox echo "2000" >> /proc/sys/vm/dirty_writeback_centisecs
+fi
+
+if [ -e /proc/sys/net ]; then
+busybox chmod -f 644 /proc/sys/net/*
+busybox echo "0" >> /proc/sys/net/ipv4/tcp_ecn
+busybox echo "1" >> /proc/sys/net/ipv4/tcp_sack
+busybox echo "1" >> /proc/sys/net/ipv4/tcp_fack
+busybox echo "0" >> /proc/sys/net/ipv4/ip_dynaddr
+busybox echo "1" >> /proc/sys/net/ipv4/route.flush
+busybox echo "1" >> /proc/sys/net/ipv4/tcp_rfc1337
+busybox echo "1" >> /proc/sys/net/ipv4/tcp_timestamps
+busybox echo "0" >> /proc/sys/net/ipv4/tcp_syncookies
+busybox echo "0" >> /proc/sys/net/ipv4/ip_no_pmtu_disc
+busybox echo "1" >> /proc/sys/net/ipv4/tcp_window_scaling
+busybox echo "1" >> /proc/sys/net/ipv4/tcp_no_metrics_save
+busybox echo "1" >> /proc/sys/net/ipv4/tcp_moderate_rcvbuf
+busybox echo "4096" >> /proc/sys/net/ipv4/tcp_max_syn_backlog
+busybox echo "4096 39000 187000" >> /proc/sys/net/ipv4/tcp_rmem
+busybox echo "4096 39000 187000" >> /proc/sys/net/ipv4/tcp_wmem
+busybox echo "187000 187000 187000" >> /proc/sys/net/ipv4/tcp_mem
+fi
+
+busybox echo "" | tee -a $DIRECT
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Sysctl script successfully executed!!!" | tee -a $DIRECT;
