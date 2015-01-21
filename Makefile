@@ -128,8 +128,8 @@ baidu_modify_apps := Phone Settings
 # The default value is 0.
 # If 1, hide the soft mainkeys. If 0, display the soft mainkeys.
 # You should configure the property according to your device.
-override_property += \
-    ro.baidu.default_write.settable=true
+#override_property += \
+#    qemu.hw.mainkeys=0 \
 
 # The property decide whether the device support the phone book index in the sim card.
 # If true, support the phone book index. If false, don't support the phone book index.
@@ -143,6 +143,7 @@ override_property += \
 # The default value is Coron.
 # You should configure the property according to your ID, ie, replace "Coron" with your ID.
 override_property += \
+    ro.baidu.default_write.settable=true \
     ro.baidu.romer=mengxi \
     romzj.rom.id=8712de25-7019-33de-c7e3-807a6240d71c \
     romzj.rom.version=test_ROM65 \
