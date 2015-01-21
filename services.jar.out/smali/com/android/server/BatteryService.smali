@@ -6,7 +6,8 @@
 # annotations
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
-        Lcom/android/server/BatteryService$Led;
+        Lcom/android/server/BatteryService$Led;,
+        Lcom/android/server/BatteryService$BaiduInjector;
     }
 .end annotation
 
@@ -248,7 +249,7 @@
 
     move-result-object v0
 
-    const v1, 0x10e0018
+    const v1, #android:integer@config_criticalBatteryWarningLevel#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getInteger(I)I
 
@@ -263,7 +264,7 @@
 
     move-result-object v0
 
-    const v1, 0x10e001a
+    const v1, #android:integer@config_lowBatteryWarningLevel#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getInteger(I)I
 
@@ -278,7 +279,7 @@
 
     move-result-object v0
 
-    const v1, 0x10e001b
+    const v1, #android:integer@config_lowBatteryCloseWarningLevel#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getInteger(I)I
 
@@ -293,7 +294,7 @@
 
     move-result-object v0
 
-    const v1, 0x10e0019
+    const v1, #android:integer@config_shutdownBatteryTemperature#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getInteger(I)I
 
@@ -321,30 +322,26 @@
 
     if-eqz v0, :cond_0
 
-    .line 178
     iget-object v0, p0, Lcom/android/server/BatteryService;->mInvalidChargerObserver:Landroid/os/UEventObserver;
 
     const-string v1, "DEVPATH=/devices/virtual/switch/invalid_charger"
 
     invoke-virtual {v0, v1}, Landroid/os/UEventObserver;->startObserving(Ljava/lang/String;)V
 
-    .line 183
     :cond_0
+    invoke-static {p0}, Lcom/android/server/BatteryService$BaiduInjector;->init(Lcom/android/server/BatteryService;)V
+
     iget-object v1, p0, Lcom/android/server/BatteryService;->mLock:Ljava/lang/Object;
 
     monitor-enter v1
 
-    .line 184
     :try_start_0
     invoke-direct {p0}, Lcom/android/server/BatteryService;->updateLocked()V
 
-    .line 185
     monitor-exit v1
 
-    .line 207
     return-void
 
-    .line 185
     :catchall_0
     move-exception v0
 
@@ -541,9 +538,9 @@
     .parameter "level"
 
     .prologue
-    const v0, 0x1080535
+    const v0, #android:drawable@stat_sys_battery_charge#t
 
-    const v1, 0x1080527
+    const v1, #android:drawable@stat_sys_battery#t
 
     .line 613
     iget v2, p0, Lcom/android/server/BatteryService;->mBatteryStatus:I
@@ -608,7 +605,7 @@
 
     .line 626
     :cond_5
-    const v0, 0x1080543
+    const v0, #android:drawable@stat_sys_battery_unknown#t
 
     goto :goto_0
 .end method
@@ -1391,14 +1388,11 @@
     :try_end_0
     .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 369
     :goto_2
-    invoke-direct {p0}, Lcom/android/server/BatteryService;->shutdownIfNoPowerLocked()V
+    invoke-direct {p0}, Lcom/android/server/BatteryService;->shutdownIfNoPowerLockedBaidu()V
 
-    .line 370
     invoke-direct {p0}, Lcom/android/server/BatteryService;->shutdownIfOverTempLocked()V
 
-    .line 372
     iget v0, p0, Lcom/android/server/BatteryService;->mBatteryStatus:I
 
     iget v1, p0, Lcom/android/server/BatteryService;->mLastBatteryStatus:I
@@ -3032,4 +3026,65 @@
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
     throw v0
+.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iput-mIPOShutdown-a7ed99(Lcom/android/server/BatteryService;Z)Z
+#    .locals 0
+#    .parameter "x0"
+#    .parameter "x1"
+#    .prologue
+#    iput-boolean p1, p0, Lcom/android/server/BatteryService;->mIPOShutdown:Z
+#    return p1
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iput-mLastBatteryLevel-ee4bed(Lcom/android/server/BatteryService;I)I
+#    .locals 0
+#    .parameter "x0"
+#    .parameter "x1"
+#    .prologue
+#    iput p1, p0, Lcom/android/server/BatteryService;->mLastBatteryLevel:I
+#    return p1
+#.end method
+
+.method static synthetic access$invoke-isPoweredLocked-ec5733(Lcom/android/server/BatteryService;I)Z
+    .locals 1
+    .parameter "x0"
+    .parameter "x1"
+
+    .prologue
+    invoke-direct {p0, p1}, Lcom/android/server/BatteryService;->isPoweredLocked(I)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method static synthetic access$iget-mHandler-7bf639(Lcom/android/server/BatteryService;)Landroid/os/Handler;
+    .locals 1
+    .parameter "x0"
+
+    .prologue
+    iget-object v0, p0, Lcom/android/server/BatteryService;->mHandler:Landroid/os/Handler;
+
+    return-object v0
+.end method
+
+.method static synthetic access$sget-TAG-a1732f()Ljava/lang/String;
+    .locals 1
+
+    .prologue
+    sget-object v0, Lcom/android/server/BatteryService;->TAG:Ljava/lang/String;
+
+    return-object v0
+.end method
+
+.method private shutdownIfNoPowerLockedBaidu()V
+    .locals 0
+
+    .prologue
+    invoke-static {p0}, Lcom/android/server/BatteryService$BaiduInjector;->shutdownIfNoPowerLockedBaidu(Lcom/android/server/BatteryService;)V
+
+    return-void
 .end method

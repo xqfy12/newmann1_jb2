@@ -8,7 +8,8 @@
     value = {
         Lcom/android/internal/widget/ActionBarView$ExpandedActionViewMenuPresenter;,
         Lcom/android/internal/widget/ActionBarView$HomeView;,
-        Lcom/android/internal/widget/ActionBarView$SavedState;
+        Lcom/android/internal/widget/ActionBarView$SavedState;,
+        Lcom/android/internal/widget/ActionBarView$BaiduInjector;
     }
 .end annotation
 
@@ -104,6 +105,12 @@
 
 .field private mUpGoerFive:Landroid/view/ViewGroup;
 
+.field mUseActivityIcon:Z
+
+.field mUseActivityLogo:Z
+
+.field mUseCustomIcon:Z
+
 .field private mUserTitle:Z
 
 .field private mWasHomeEnabled:Z
@@ -171,7 +178,7 @@
     .line 180
     sget-object v2, Lcom/android/internal/R$styleable;->ActionBar:[I
 
-    const v3, 0x10102ce
+    const v3, #android:attr@actionBarStyle#t
 
     const/4 v4, 0x0
 
@@ -242,6 +249,8 @@
 
     iput-object v2, v0, Lcom/android/internal/widget/ActionBarView;->mLogo:Landroid/graphics/drawable/Drawable;
 
+    invoke-static/range {p0 .. p0}, Lcom/android/internal/widget/ActionBarView$BaiduInjector;->setUseActivityLogo(Lcom/android/internal/widget/ActionBarView;)V
+
     .line 191
     move-object/from16 v0, p0
 
@@ -308,6 +317,8 @@
 
     iput-object v2, v0, Lcom/android/internal/widget/ActionBarView;->mIcon:Landroid/graphics/drawable/Drawable;
 
+    invoke-static/range {p0 .. p0}, Lcom/android/internal/widget/ActionBarView$BaiduInjector;->setUseActivityIcon(Lcom/android/internal/widget/ActionBarView;)V
+
     .line 205
     move-object/from16 v0, p0
 
@@ -372,7 +383,7 @@
     .local v13, inflater:Landroid/view/LayoutInflater;
     const/16 v2, 0xf
 
-    const v3, 0x1090018
+    const v3, #android:layout@action_bar_home#t
 
     invoke-virtual {v9, v2, v3}, Landroid/content/res/TypedArray;->getResourceId(II)I
 
@@ -382,8 +393,7 @@
 
     iput v2, v0, Lcom/android/internal/widget/ActionBarView;->mHomeResId:I
 
-    .line 224
-    const v2, 0x109001a
+    const v2, #android:layout@action_bar_up_container#t
 
     const/4 v3, 0x0
 
@@ -470,7 +480,7 @@
 
     move-result-object v3
 
-    const v4, 0x10404e3
+    const v4, #android:string@action_bar_up_description#t
 
     invoke-virtual {v3, v4}, Landroid/content/res/Resources;->getText(I)Ljava/lang/CharSequence;
 
@@ -682,7 +692,7 @@
 
     const/4 v4, 0x0
 
-    const v5, 0x102002c
+    const v5, #android:id@home#t
 
     const/4 v6, 0x0
 
@@ -1038,7 +1048,7 @@
 
     .line 819
     .local v1, inflater:Landroid/view/LayoutInflater;
-    const v4, 0x1090019
+    const v4, #android:layout@action_bar_title_item#t
 
     invoke-virtual {v1, v4, p0, v6}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;Z)Landroid/view/View;
 
@@ -1051,7 +1061,7 @@
     .line 821
     iget-object v4, p0, Lcom/android/internal/widget/ActionBarView;->mTitleLayout:Landroid/widget/LinearLayout;
 
-    const v8, 0x102024f
+    const v8, #android:id@action_bar_title#t
 
     invoke-virtual {v4, v8}, Landroid/widget/LinearLayout;->findViewById(I)Landroid/view/View;
 
@@ -1064,7 +1074,7 @@
     .line 822
     iget-object v4, p0, Lcom/android/internal/widget/ActionBarView;->mTitleLayout:Landroid/widget/LinearLayout;
 
-    const v8, 0x1020250
+    const v8, #android:id@action_bar_subtitle#t
 
     invoke-virtual {v4, v8}, Landroid/widget/LinearLayout;->findViewById(I)Landroid/view/View;
 
@@ -1077,7 +1087,7 @@
     .line 823
     iget-object v4, p0, Lcom/android/internal/widget/ActionBarView;->mTitleLayout:Landroid/widget/LinearLayout;
 
-    const v8, 0x1020248
+    const v8, #android:id@up#t
 
     invoke-virtual {v4, v8}, Landroid/widget/LinearLayout;->findViewById(I)Landroid/view/View;
 
@@ -1338,7 +1348,7 @@
 
     move-result-object v1
 
-    const v2, 0x10404e3
+    const v2, #android:string@action_bar_up_description#t
 
     invoke-virtual {v1, v2}, Landroid/content/res/Resources;->getText(I)Ljava/lang/CharSequence;
 
@@ -1358,7 +1368,7 @@
 
     move-result-object v1
 
-    const v2, 0x10404e2
+    const v2, #android:string@action_bar_home_description#t
 
     invoke-virtual {v1, v2}, Landroid/content/res/Resources;->getText(I)Ljava/lang/CharSequence;
 
@@ -1672,26 +1682,22 @@
 
     iput-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mIndeterminateProgressView:Landroid/widget/ProgressBar;
 
-    .line 346
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mIndeterminateProgressView:Landroid/widget/ProgressBar;
 
-    const v1, 0x102035f
+    const v1, #android:id@progress_circular#t
 
     invoke-virtual {v0, v1}, Landroid/widget/ProgressBar;->setId(I)V
 
-    .line 347
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mIndeterminateProgressView:Landroid/widget/ProgressBar;
 
     const/16 v1, 0x8
 
     invoke-virtual {v0, v1}, Landroid/widget/ProgressBar;->setVisibility(I)V
 
-    .line 348
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mIndeterminateProgressView:Landroid/widget/ProgressBar;
 
     invoke-virtual {p0, v0}, Lcom/android/internal/widget/ActionBarView;->addView(Landroid/view/View;)V
 
-    .line 349
     return-void
 .end method
 
@@ -1714,33 +1720,28 @@
 
     iput-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mProgressView:Landroid/widget/ProgressBar;
 
-    .line 337
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mProgressView:Landroid/widget/ProgressBar;
 
-    const v1, 0x1020360
+    const v1, #android:id@progress_horizontal#t
 
     invoke-virtual {v0, v1}, Landroid/widget/ProgressBar;->setId(I)V
 
-    .line 338
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mProgressView:Landroid/widget/ProgressBar;
 
     const/16 v1, 0x2710
 
     invoke-virtual {v0, v1}, Landroid/widget/ProgressBar;->setMax(I)V
 
-    .line 339
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mProgressView:Landroid/widget/ProgressBar;
 
     const/16 v1, 0x8
 
     invoke-virtual {v0, v1}, Landroid/widget/ProgressBar;->setVisibility(I)V
 
-    .line 340
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mProgressView:Landroid/widget/ProgressBar;
 
     invoke-virtual {p0, v0}, Lcom/android/internal/widget/ActionBarView;->addView(Landroid/view/View;)V
 
-    .line 341
     return-void
 .end method
 
@@ -1941,12 +1942,10 @@
 
     check-cast v3, Lcom/android/internal/widget/ActionBarView$HomeView;
 
-    .line 303
     .local v3, tempHomeLayout:Lcom/android/internal/widget/ActionBarView$HomeView;
     if-eqz v3, :cond_4
 
-    .line 304
-    const v5, 0x102002c
+    const v5, #android:id@home#t
 
     invoke-virtual {v3, v5}, Lcom/android/internal/widget/ActionBarView$HomeView;->findViewById(I)Landroid/view/View;
 
@@ -5289,7 +5288,7 @@
 
     move-result-object v7
 
-    const v8, 0x10404e3
+    const v8, #android:string@action_bar_up_description#t
 
     invoke-virtual {v7, v8}, Landroid/content/res/Resources;->getText(I)Ljava/lang/CharSequence;
 
@@ -5309,7 +5308,7 @@
 
     move-result-object v7
 
-    const v8, 0x10404e2
+    const v8, #android:string@action_bar_home_description#t
 
     invoke-virtual {v7, v8}, Landroid/content/res/Resources;->getText(I)Ljava/lang/CharSequence;
 
@@ -5492,19 +5491,18 @@
 
     if-nez v0, :cond_1
 
-    .line 694
     :cond_0
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mHomeLayout:Lcom/android/internal/widget/ActionBarView$HomeView;
 
     invoke-virtual {v0, p1}, Lcom/android/internal/widget/ActionBarView$HomeView;->setIcon(Landroid/graphics/drawable/Drawable;)V
 
-    .line 696
+    invoke-static {p0}, Lcom/android/internal/widget/ActionBarView$BaiduInjector;->setUseCustomIcon(Lcom/android/internal/widget/ActionBarView;)V
+
     :cond_1
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mExpandedActionView:Landroid/view/View;
 
     if-eqz v0, :cond_2
 
-    .line 697
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mExpandedHomeLayout:Lcom/android/internal/widget/ActionBarView$HomeView;
 
     iget-object v1, p0, Lcom/android/internal/widget/ActionBarView;->mIcon:Landroid/graphics/drawable/Drawable;
@@ -5567,12 +5565,12 @@
 
     if-eqz v0, :cond_0
 
-    .line 708
     iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mHomeLayout:Lcom/android/internal/widget/ActionBarView$HomeView;
 
     invoke-virtual {v0, p1}, Lcom/android/internal/widget/ActionBarView$HomeView;->setIcon(Landroid/graphics/drawable/Drawable;)V
 
-    .line 710
+    invoke-static {p0}, Lcom/android/internal/widget/ActionBarView$BaiduInjector;->setUseCustomIcon(Lcom/android/internal/widget/ActionBarView;)V
+
     :cond_0
     return-void
 .end method
@@ -5663,19 +5661,16 @@
 
     iput-object v4, p0, Lcom/android/internal/widget/ActionBarView;->mActionMenuPresenter:Lcom/android/internal/view/menu/ActionMenuPresenter;
 
-    .line 437
     iget-object v4, p0, Lcom/android/internal/widget/ActionBarView;->mActionMenuPresenter:Lcom/android/internal/view/menu/ActionMenuPresenter;
 
     invoke-virtual {v4, p2}, Lcom/android/internal/view/menu/ActionMenuPresenter;->setCallback(Lcom/android/internal/view/menu/MenuPresenter$Callback;)V
 
-    .line 438
     iget-object v4, p0, Lcom/android/internal/widget/ActionBarView;->mActionMenuPresenter:Lcom/android/internal/view/menu/ActionMenuPresenter;
 
-    const v5, 0x102024c
+    const v5, #android:id@action_menu_presenter#t
 
     invoke-virtual {v4, v5}, Lcom/android/internal/view/menu/ActionMenuPresenter;->setId(I)V
 
-    .line 439
     new-instance v4, Lcom/android/internal/widget/ActionBarView$ExpandedActionViewMenuPresenter;
 
     const/4 v5, 0x0
@@ -5705,7 +5700,7 @@
 
     move-result-object v5
 
-    const v6, 0x1110009
+    const v6, #android:bool@action_bar_expanded_action_views_exclusive#t
 
     invoke-virtual {v5, v6}, Landroid/content/res/Resources;->getBoolean(I)Z
 
@@ -5927,7 +5922,7 @@
 
     iget-object v3, p0, Lcom/android/internal/widget/ActionBarView;->mContext:Landroid/content/Context;
 
-    const v4, 0x10102d7
+    const v4, #android:attr@actionDropDownStyle#t
 
     invoke-direct {v2, v3, v5, v4}, Landroid/widget/Spinner;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;I)V
 
@@ -5938,7 +5933,7 @@
 
     iget-object v3, p0, Lcom/android/internal/widget/ActionBarView;->mContext:Landroid/content/Context;
 
-    const v4, 0x10102f4
+    const v4, #android:attr@actionBarTabBarStyle#t
 
     invoke-direct {v2, v3, v5, v4}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;I)V
 
@@ -6137,7 +6132,7 @@
 
     move-result-object v2
 
-    const v3, 0x1110009
+    const v3, #android:bool@action_bar_expanded_action_views_exclusive#t
 
     invoke-virtual {v2, v3}, Landroid/content/res/Resources;->getBoolean(I)Z
 
@@ -6370,4 +6365,52 @@
     const/4 v0, 0x0
 
     return v0
+.end method
+
+.method static synthetic access$iget-mContext-498a0a(Lcom/android/internal/widget/ActionBarView;)Landroid/content/Context;
+    .locals 1
+    .parameter "x0"
+
+    .prologue
+    iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mContext:Landroid/content/Context;
+
+    return-object v0
+.end method
+
+.method getmIcon()Landroid/graphics/drawable/Drawable;
+    .locals 1
+
+    .prologue
+    iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mIcon:Landroid/graphics/drawable/Drawable;
+
+    return-object v0
+.end method
+
+.method getmLogo()Landroid/graphics/drawable/Drawable;
+    .locals 1
+
+    .prologue
+    iget-object v0, p0, Lcom/android/internal/widget/ActionBarView;->mLogo:Landroid/graphics/drawable/Drawable;
+
+    return-object v0
+.end method
+
+.method setmIcon(Landroid/graphics/drawable/Drawable;)V
+    .locals 0
+    .parameter "mIcon"
+
+    .prologue
+    iput-object p1, p0, Lcom/android/internal/widget/ActionBarView;->mIcon:Landroid/graphics/drawable/Drawable;
+
+    return-void
+.end method
+
+.method setmLogo(Landroid/graphics/drawable/Drawable;)V
+    .locals 0
+    .parameter "mLogo"
+
+    .prologue
+    iput-object p1, p0, Lcom/android/internal/widget/ActionBarView;->mLogo:Landroid/graphics/drawable/Drawable;
+
+    return-void
 .end method

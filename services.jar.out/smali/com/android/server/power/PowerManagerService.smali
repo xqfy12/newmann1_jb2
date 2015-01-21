@@ -9,6 +9,7 @@
 # annotations
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
+        Lcom/android/server/power/PowerManagerService$BaiduInjector;,
         Lcom/android/server/power/PowerManagerService$DisplayBlankerImpl;,
         Lcom/android/server/power/PowerManagerService$ScreenOnBlockerImpl;,
         Lcom/android/server/power/PowerManagerService$SuspendBlockerImpl;,
@@ -3179,7 +3180,7 @@
 
     .line 645
     .local v0, resources:Landroid/content/res/Resources;
-    const v1, 0x111001a
+    const v1, #android:bool@config_unplugTurnsOnScreen#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getBoolean(I)Z
 
@@ -3187,8 +3188,7 @@
 
     iput-boolean v1, p0, Lcom/android/server/power/PowerManagerService;->mWakeUpWhenPluggedOrUnpluggedConfig:Z
 
-    .line 647
-    const v1, 0x1110040
+    const v1, #android:bool@config_dreamsSupported#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getBoolean(I)Z
 
@@ -3196,8 +3196,7 @@
 
     iput-boolean v1, p0, Lcom/android/server/power/PowerManagerService;->mDreamsSupportedConfig:Z
 
-    .line 649
-    const v1, 0x1110041
+    const v1, #android:bool@config_dreamsEnabledByDefault#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getBoolean(I)Z
 
@@ -3205,8 +3204,7 @@
 
     iput-boolean v1, p0, Lcom/android/server/power/PowerManagerService;->mDreamsEnabledByDefaultConfig:Z
 
-    .line 651
-    const v1, 0x1110043
+    const v1, #android:bool@config_dreamsActivatedOnSleepByDefault#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getBoolean(I)Z
 
@@ -3214,8 +3212,7 @@
 
     iput-boolean v1, p0, Lcom/android/server/power/PowerManagerService;->mDreamsActivatedOnSleepByDefaultConfig:Z
 
-    .line 653
-    const v1, 0x1110042
+    const v1, #android:bool@config_dreamsActivatedOnDockByDefault#t
 
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getBoolean(I)Z
 
@@ -4831,6 +4828,8 @@
     .line 1299
     :cond_3
     invoke-direct {p0}, Lcom/android/server/power/PowerManagerService;->updateSuspendBlockerLocked()V
+
+    invoke-static {p0}, Lcom/android/server/power/PowerManagerService$BaiduInjector;->updateButtonLightLocked(Lcom/android/server/power/PowerManagerService;)V
 
     goto :goto_0
 .end method
@@ -9489,16 +9488,14 @@
 
     iput v2, v0, Lcom/android/server/power/PowerManagerService;->mDirty:I
 
-    .line 638
     invoke-direct/range {p0 .. p0}, Lcom/android/server/power/PowerManagerService;->updatePowerStateLocked()V
 
-    .line 639
+    invoke-static/range {p0 .. p0}, Lcom/android/server/power/PowerManagerService$BaiduInjector;->regitsterButtonLightReceiver(Lcom/android/server/power/PowerManagerService;)V
+
     monitor-exit v17
 
-    .line 640
     return-void
 
-    .line 639
     .end local v13           #filter:Landroid/content/IntentFilter;
     .end local v14           #pm:Landroid/os/PowerManager;
     .end local v15           #resolver:Landroid/content/ContentResolver;
@@ -9870,4 +9867,103 @@
     invoke-static {v0, v1}, Landroid/os/Binder;->restoreCallingIdentity(J)V
 
     throw v2
+.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$invoke-goToSleepNoUpdateLocked-2ee6d7(Lcom/android/server/power/PowerManagerService;JI)Z
+#    .locals 1
+#    .parameter "x0"
+#    .parameter "x1"
+#    .parameter "x2"
+#    .prologue
+#    invoke-direct {p0, p1, p2, p3}, Lcom/android/server/power/PowerManagerService;->goToSleepNoUpdateLocked(JI)Z
+#    move-result v0
+#    return v0
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iput-mIPOFlag-726797(Lcom/android/server/power/PowerManagerService;Z)Z
+#    .locals 0
+#    .parameter "x0"
+#    .parameter "x1"
+#    .prologue
+#    iput-boolean p1, p0, Lcom/android/server/power/PowerManagerService;->mIPOFlag:Z
+#    return p1
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$invoke-sendPendingNotificationsLocked-f2c9c0(Lcom/android/server/power/PowerManagerService;)V
+#    .locals 0
+#    .parameter "x0"
+#    .prologue
+#    invoke-direct {p0}, Lcom/android/server/power/PowerManagerService;->sendPendingNotificationsLocked()V
+#    return-void
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iget-mNotifier-fa1993(Lcom/android/server/power/PowerManagerService;)Lcom/android/server/power/Notifier;
+#    .locals 1
+#    .parameter "x0"
+#    .prologue
+#    iget-object v0, p0, Lcom/android/server/power/PowerManagerService;->mNotifier:Lcom/android/server/power/Notifier;
+#    return-object v0
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iput-mSendWakeUpFinishedNotificationWhenReady-63a563(Lcom/android/server/power/PowerManagerService;Z)Z
+#    .locals 0
+#    .parameter "x0"
+#    .parameter "x1"
+#    .prologue
+#    iput-boolean p1, p0, Lcom/android/server/power/PowerManagerService;->mSendWakeUpFinishedNotificationWhenReady:Z
+#    return p1
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iget-mBootCompleted-4e3d66(Lcom/android/server/power/PowerManagerService;)Z
+#    .locals 1
+#    .parameter "x0"
+#    .prologue
+#    iget-boolean v0, p0, Lcom/android/server/power/PowerManagerService;->mBootCompleted:Z
+#    return v0
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iput-mBootCompleted-6db12f(Lcom/android/server/power/PowerManagerService;Z)Z
+#    .locals 0
+#    .parameter "x0"
+#    .parameter "x1"
+#    .prologue
+#    iput-boolean p1, p0, Lcom/android/server/power/PowerManagerService;->mBootCompleted:Z
+#    return p1
+#.end method
+
+# Remove the first '#' if you want to enable this method. It might be invoked from codes of BOSP.
+#.method static synthetic access$iput-mIPOShutdown-fbc7cf(Lcom/android/server/power/PowerManagerService;Z)Z
+#    .locals 0
+#    .parameter "x0"
+#    .parameter "x1"
+#    .prologue
+#    iput-boolean p1, p0, Lcom/android/server/power/PowerManagerService;->mIPOShutdown:Z
+#    return p1
+#.end method
+
+.method static synthetic access$iget-mSettingsObserver-0db185(Lcom/android/server/power/PowerManagerService;)Lcom/android/server/power/PowerManagerService$SettingsObserver;
+    .locals 1
+    .parameter "x0"
+
+    .prologue
+    iget-object v0, p0, Lcom/android/server/power/PowerManagerService;->mSettingsObserver:Lcom/android/server/power/PowerManagerService$SettingsObserver;
+
+    return-object v0
+.end method
+
+.method static synthetic access$iget-mLightsService-24a2db(Lcom/android/server/power/PowerManagerService;)Lcom/android/server/LightsService;
+    .locals 1
+    .parameter "x0"
+
+    .prologue
+    iget-object v0, p0, Lcom/android/server/power/PowerManagerService;->mLightsService:Lcom/android/server/LightsService;
+
+    return-object v0
 .end method

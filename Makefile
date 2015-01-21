@@ -54,7 +54,7 @@ RESOLUTION := 540x960
 # The default value is Bluetooth.
 # You can configure the apk name in the vendor/system/app or vendor/system/pri-app directory.
 #-----------------------------------------------------------------------------
-vendor_saved_apps := FMRadio MtkBt Stk1
+vendor_saved_apps := MtkBt Stk1 EngineerMode EngineerModeSim
 
 ##############################################################################
 # The value decides which vendor apk you want to modify.
@@ -63,7 +63,7 @@ vendor_saved_apps := FMRadio MtkBt Stk1
 # You need ro decode FMRadio.apk to the project directory(use apktool d FMRadio.apk) first,
 # and then you can make it by:   make FMRadio
 #-----------------------------------------------------------------------------
-#vendor_modify_apps := FMRadio
+vendor_modify_apps := DeviceOriginalSettings
 
 ##############################################################################
 # The value decides which vendor jar you want to modify.
@@ -93,7 +93,7 @@ vendor_modify_jars := framework mediatek-framework pm secondary-framework servic
 # The default value is nothing.
 # You can configure the baidu system apk name in the value.
 #-----------------------------------------------------------------------------
-#baidu_remove_apps := BaiduUserFeedback
+baidu_remove_apps := BaiduMap BaiduUpdate GameCenter iReader BaiduAppSearch BaiduBrowser
 
 ##############################################################################
 # The value decides which apk you want to modify, when the apk is based on the baidu system apk.
@@ -105,7 +105,7 @@ vendor_modify_jars := framework mediatek-framework pm secondary-framework servic
 # The command idtoname how to use: first use "apktool d source/system/framework/framework-res.apk other/TMP/framework-res",
 # and then use "idtoname other/TMP/framework-res/res/values/public_master.xml XXXX/smali"(XXXX is the directory where you decode baidu system apk).
 #-----------------------------------------------------------------------------
-baidu_modify_apps := Phone
+baidu_modify_apps := Phone Settings
 
 ##############################################################################
 # The value decides which jar you want to modify, when the jar is based on the baidu framework jar.
@@ -128,8 +128,8 @@ baidu_modify_apps := Phone
 # The default value is 0.
 # If 1, hide the soft mainkeys. If 0, display the soft mainkeys.
 # You should configure the property according to your device.
-#override_property += \
-#    qemu.hw.mainkeys=1
+override_property += \
+    ro.baidu.default_write.settable=true
 
 # The property decide whether the device support the phone book index in the sim card.
 # If true, support the phone book index. If false, don't support the phone book index.
@@ -143,7 +143,10 @@ baidu_modify_apps := Phone
 # The default value is Coron.
 # You should configure the property according to your ID, ie, replace "Coron" with your ID.
 override_property += \
-    ro.baidu.romer=Coron
+    ro.baidu.romer=mengxi \
+    romzj.rom.id=8712de25-7019-33de-c7e3-807a6240d71c \
+    romzj.rom.version=test_ROM65 \
+    romzj.rom.version.code=65
 
 ##############################################################################
 # The value decides which property you will remove from the build.prop.
@@ -159,7 +162,7 @@ override_property += \
 # The default value is true.
 # If you don't need to verify the device, please set it false.
 #-----------------------------------------------------------------------------
-#RECOVERY_OTA_ASSERT := false
+RECOVERY_OTA_ASSERT := false
 
 ##############################################################################
 # The value decides whether create update the recovery.img script in the system/etc/install-recovery.sh.
@@ -207,7 +210,7 @@ override_property += \
 # Otherwise if FORMAT_PARAM_NUM is 5:
 # format("ext4", "EMMC", "/dev/block/platform/hi_mci.1/by-name/system", "0", "/system");
 #-----------------------------------------------------------------------------
-# FORMAT_PARAM_NUM := 4
+FORMAT_PARAM_NUM := 4
 
 
 include $(PORT_BUILD)/main.mk
