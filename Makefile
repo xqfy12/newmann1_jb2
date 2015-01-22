@@ -54,7 +54,7 @@ RESOLUTION := 540x960
 # The default value is Bluetooth.
 # You can configure the apk name in the vendor/system/app or vendor/system/pri-app directory.
 #-----------------------------------------------------------------------------
-vendor_saved_apps := MtkBt Stk1 EngineerMode EngineerModeSim
+vendor_saved_apps := MtkBt Stk1 EngineerMode EngineerModeSim SchedulePowerOnOff
 
 ##############################################################################
 # The value decides which vendor apk you want to modify.
