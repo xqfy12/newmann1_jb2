@@ -143,7 +143,7 @@ baidu_modify_apps := Phone Settings
 # The default value is Coron.
 # You should configure the property according to your ID, ie, replace "Coron" with your ID.
 override_property += \
-    ro.baidu.default_write.settable=true \
+#    ro.baidu.default_write.settable=true \
     ro.baidu.romer=mengxi \
     romzj.rom.id=8712de25-7019-33de-c7e3-807a6240d71c \
     romzj.rom.version=test_ROM65 \
