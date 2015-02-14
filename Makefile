@@ -147,7 +147,23 @@ override_property += \
     ro.baidu.romerinfo=http://weibo.com/42008250/ \
     romzj.rom.id=8712de25-7019-33de-c7e3-807a6240d71c \
     romzj.rom.version=test_ROM66 \
-    romzj.rom.version.code=66
+# The property "ro.baidu.default_write.settable" decide whether support storage switch.
+# The default value is false.
+# The property "ro.baidu.mountpoint.settable" decide whether support the physical storage switch.
+# The default value is false.
+# In general, only a few devices support the physical storage switch, most devices support the logical storage switch.
+# The property "persist.sys.baidu.default_write" decide the default storage.
+# The default value is first_storage, meaning the internal storage. The other value is secondary_storage, meaning the external storage.
+# You should configure these properties according to your device.
+override_property += \
+    ro.baidu.default_write.settable=true \
+    persist.sys.baidu.default_write=first_storage
+
+# The property decide the asec volume for your device.
+# The default value is 0, meaning the asec volume is the primary volume. The other value is 1, meaning the asec volume is the external sdcard.
+# You should configure the property according to your device.
+override_property += \
+    ro.baidu.asec.type=1
 
 ##############################################################################
 # The value decides which property you will remove from the build.prop.
